@@ -4,7 +4,7 @@ from app.features.admin.country.infrastructure.models.country_model import Count
 
 def map_country_entity_to_model(entity: CountryEntity) -> CountryModel:
     """
-    Map a CoauntryEntity to a CountryModel.
+    Map a CountryEntity to a CountryModel.
 
     Args:
         entity (CountryEntity): The CountryEntity to map

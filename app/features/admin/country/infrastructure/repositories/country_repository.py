@@ -1,5 +1,6 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm.session import Session
 from typing_extensions import override
+from sqlalchemy import update
 
 from app.features.admin.country.domain.country_entity import CountryEntity
 from app.features.admin.country.infrastructure.models.country_model import CountryModel
@@ -14,10 +15,12 @@ from app.features.admin.country.infrastructure.mappers.map_country_model_to_enti
 )
 
 
-class CountryRpository(ICountryRepository):
+class CountryRepository(ICountryRepository):
+
     def __init__(self, session: Session):
         self.session: Session = session
 
+    # ----------------------------------------------------
     @override
     def get_all_countries(self) -> list[CountryEntity]:
         """
@@ -26,9 +29,13 @@ class CountryRpository(ICountryRepository):
         Returns:
             list[CountryEntity]: List of CountryEntity objects
         """
-        result = self.session.query(CountryModel).all()
+        countries = self.session.query(CountryModel).all()
+        # Map CountryModel to CountryEntity
+        result = [map_country_model_to_entity(country) for country in countries]
+        # Return list of country entities
         return result
 
+    # ----------------------------------------------------
     @override
     def get_country_by_id(self, country_id: int) -> CountryEntity:
         """
@@ -39,14 +46,23 @@ class CountryRpository(ICountryRepository):
 
         Returns:
             CountryEntity: Country Entity
+
+        Raises:
+            ValueError: If country not found
         """
-        result = (
+        result: CountryModel | None = (
             self.session.query(CountryModel)
             .filter(CountryModel.id == country_id)
             .first()
         )
-        return result
 
+        # ✅ Validar que el resultado no sea None
+        if result is None:
+            raise ValueError(f"Country with ID {country_id} not found")
+
+        return map_country_model_to_entity(result)
+
+    # ----------------------------------------------------
     @override
     def create_country(self, country: CountryEntity) -> CountryEntity:
         """
@@ -61,12 +77,14 @@ class CountryRpository(ICountryRepository):
         # Map Country entity to Country model
         country_model = map_country_entity_to_model(country)
         # Add country model to session
-        result = self.session.add(country_model)
+        self.session.add(country_model)
         # Commit session
         self.session.commit()
-        # Mapp country model to country entity and return
-        return map_country_model_to_entity(result)
+        self.session.refresh(country_model)
+        # Map country model to country entity and return
+        return map_country_model_to_entity(country_model)
 
+    # ----------------------------------------------------
     @override
     def update_country(self, country_id: int, country: CountryEntity) -> CountryEntity:
         """
@@ -94,9 +112,10 @@ class CountryRpository(ICountryRepository):
         self.session.update(country_model)
         # Commit session
         self.session.commit()
-        # Map country model to contry entity and return
+        # Map country model to country entity and return
         return map_country_model_to_entity(country_model)
 
+    # ----------------------------------------------------
     @override
     def delete_country(self, country_id: int) -> None:
         """
@@ -118,4 +137,4 @@ class CountryRpository(ICountryRepository):
         # Commit session
         self.session.commit()
         # Return true
-        return True
+        return
