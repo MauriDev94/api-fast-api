@@ -1,12 +1,14 @@
+from typing import Generator
 from sqlalchemy.engine import URL, create_engine
-from app.core.config.env_config import EnvConfig
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, Session
 
+from app.core.config.env_config import EnvConfig
 from app.core.data.source.local.base import Base
 
 
 class Database:
     def __init__(self, config: EnvConfig):
+        # create database url
         url = URL.create(
             drivername="postgresql+psycopg2",
             username=config.db_user,
@@ -15,6 +17,23 @@ class Database:
             port=config.db_port,
             database=config.db_name,
         )
+        # create database engine
         self.engine = create_engine(url, echo=True)
+        # create database session
         self.session = sessionmaker(bind=self.engine, autoflush=False, autocommit=False)
-        self.Base = Base()
+        # create database base
+        self.Base = Base
+
+    def get_session(self) -> Generator[Session, None, None]:
+        """
+        Get database session
+
+        returns:
+            Generator[Session, None, None]: Database session generator
+
+        """
+        db: Session = self.session()
+        try:
+            yield db
+        finally:
+            db.close()
