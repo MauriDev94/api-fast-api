@@ -7,8 +7,18 @@
 
 
 ### To Activate Python Virtual Environment
+### VS Code Setup
+1. Install python extension
+2. Install Pylance extension
+3. Install autoDocstring - python Docstring Generator 
+4. Install Code Spell Checker
+5. Install Black Formatter
+
+
+### To Activate Python Virtual Environment
 
 '''bash
+    .venv\scripts\activate
     .venv\scripts\activate
 '''
 
@@ -16,12 +26,14 @@
 
 '''Bash
     deactivate
+    deactivate
 '''
 
 
 ### Install Dependencies
 
 ´´´bash
+    pip install -r requirements.txt
     pip install -r requirements.txt
 '''
 

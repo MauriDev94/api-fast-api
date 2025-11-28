@@ -50,16 +50,11 @@ class CountryRepository(ICountryRepository):
         Raises:
             ValueError: If country not found
         """
-        result: CountryModel | None = (
+        result = (
             self.session.query(CountryModel)
             .filter(CountryModel.id == country_id)
             .first()
         )
-
-        # ✅ Validar que el resultado no sea None
-        if result is None:
-            raise ValueError(f"Country with ID {country_id} not found")
-
         return map_country_model_to_entity(result)
 
     # ----------------------------------------------------
@@ -107,7 +102,7 @@ class CountryRepository(ICountryRepository):
         # TODO: raise exception if country not found
 
         # Map country entity to country model
-        country_model = map_country_model_to_entity(country)
+        country_model = map_country_entity_to_model(country)
         # update country model
         self.session.update(country_model)
         # Commit session
@@ -117,7 +112,7 @@ class CountryRepository(ICountryRepository):
 
     # ----------------------------------------------------
     @override
-    def delete_country(self, country_id: int) -> None:
+    def delete_country(self, country_id: int) -> bool:
         """
         Delete a Country
 
@@ -136,5 +131,4 @@ class CountryRepository(ICountryRepository):
         self.session.delete(country_model)
         # Commit session
         self.session.commit()
-        # Return true
-        return
+        return True

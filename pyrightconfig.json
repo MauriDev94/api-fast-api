@@ -1,0 +1,10 @@
+{
+  "include" : ["app"],
+
+  "exclude" : ["**/__pycache__"],
+  
+  "reportReturnType":"error",
+  "reportCallIssue": "none",
+  "reportOptionalCall": "none"
+  
+}

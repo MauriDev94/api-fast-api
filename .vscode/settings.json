@@ -1,0 +1,8 @@
+{
+  "python.defaultInterpreterPath": "C:\\Users\\Luis\\Desktop\\pythonMauri\\Api Python\\app\\.venv\\Scripts\\python.exe",
+
+  "[python]":{
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true
+}
+}
