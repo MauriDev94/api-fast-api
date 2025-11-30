@@ -46,7 +46,7 @@ def create_country(
     return CountryResponse(status="success", data=result)
 
 
-@v1_router.patch("/admin/country/{country_id}")
+@v1_router.patch("/admin/country/{country_id}", status_code=status.HTTP_200_OK)
 def patch_country(
     country_id: int,
     data: CountryEntity,
@@ -58,13 +58,13 @@ def patch_country(
     return CountryResponse(status="success", data=result)
 
 
-@v1_router.delete("/admin/country/{country_id}")
+@v1_router.delete("/admin/country/{country_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_country(
     country_id: int,
     data: CountryEntity,
     country_service: Annotated[CountryService, Depends(get_country_service)],
-) -> CountryResponse:
+) -> None:
     # Call the service method to delete a country
     result = country_service.delete_country(country_id, data)
     # Return CountryResponse(status="succes", data=result
-    return CountryResponse(status="succes", data=result)
+    # return CountryResponse(status="succes", data=result)
