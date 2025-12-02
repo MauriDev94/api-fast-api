@@ -49,3 +49,26 @@
 '''bash
     docker compose -f docker-compose-dev.yaml --env-file .env up -d
 '''
+
+
+### Alembic Commands
+
+0. Initialize alembic
+'''bash
+    alembic init alembic
+'''
+1. Create migration
+'''bash
+    alembic revision --autogenerate -m "your message..."
+'''
+2. Update database
+'''bash
+    alembic upgrade heady
+'''
+3. this will undo the last migration
+'''bash
+    alembic downgrade -1
+4. this will list all migration history(you can use this to find the migration to undo)
+'''bass
+alembic history --verbose
+'''
