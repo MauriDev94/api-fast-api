@@ -19,14 +19,14 @@
 
 '''bash
     .venv\scripts\activate
-    .venv\scripts\activate
+    
 '''
 
 ### To deactivate venv
 
 '''Bash
     deactivate
-    deactivate
+    
 '''
 
 
@@ -34,7 +34,7 @@
 
 ´´´bash
     pip install -r requirements.txt
-    pip install -r requirements.txt
+    
 '''
 
 
