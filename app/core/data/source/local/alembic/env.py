@@ -8,7 +8,7 @@ from alembic import context
 from app.core.data.source.local import database
 
 
-# Load .env file
+# Load the .env file
 # env_mode = os.getenv("APP_ENV")
 # env_file = f".env.{env_mode}"
 load_dotenv(".env")
