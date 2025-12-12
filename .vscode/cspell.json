@@ -11,6 +11,10 @@
     "resultado",
     "uvicorn",
     "Validar",
-    "venv"
+    "venv",
+    "fastapi",
+    "poolclass",
+    "icountry",
+    "dotenv"
   ]
 }

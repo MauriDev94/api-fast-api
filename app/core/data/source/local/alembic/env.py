@@ -84,7 +84,7 @@ def run_migrations_online() -> None:
     # Create a engine
     engine = create_engine(database_url, poolclass=pool.NullPool)
 
-    with engine.connect() as connection:
+    with engine.connect() as connection:  # type: ignore
         context.configure(
             connection=connection, target_metadata=target_metadata, compare_type=True
         )
