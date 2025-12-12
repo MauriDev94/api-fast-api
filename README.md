@@ -53,7 +53,7 @@
 
 2. Update database
 '''bash
-    alembic upgrade heady
+    alembic upgrade head
 '''
 
 3. this will undo the last migration
