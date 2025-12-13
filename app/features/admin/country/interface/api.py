@@ -5,9 +5,13 @@ from app.core.router.router import get_versioned_router
 from app.features.admin.country.application.country_service import CountryService
 from app.features.admin.country.domain.country_entity import CountryEntity
 from app.features.admin.country.interface.dependencies import get_country_service
+from app.features.admin.country.interface.mappers.map_create_country_schema_to_entity import (
+    mapCreateCountrySchemaToEntity,
+)
 from app.features.admin.country.interface.schemas import (
     CountryListResponse,
     CountryResponse,
+    CreateCountryRequest,
 )
 
 
@@ -37,11 +41,14 @@ def get_country_by_id(
 
 @v1_router.post("/admin/countries", status_code=status.HTTP_201_CREATED)
 def create_country(
-    data: CountryEntity,
+    data: CreateCountryRequest,
     country_service: Annotated[CountryService, Depends(get_country_service)],
 ) -> CountryResponse:
+    # map the request to entity
+    country_entity = mapCreateCountrySchemaToEntity(data)
+
     # Call the service method to create a country
-    result = country_service.create_country(data)
+    result = country_service.create_country(country_entity)
     # return CountryResponse(status="succes", data=result)
     return CountryResponse(status="success", data=result)
 
