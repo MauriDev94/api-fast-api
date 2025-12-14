@@ -8,6 +8,9 @@ from app.features.admin.country.interface.dependencies import get_country_servic
 from app.features.admin.country.interface.mappers.map_create_country_schema_to_entity import (
     mapCreateCountrySchemaToEntity,
 )
+from app.features.admin.country.interface.mappers.map_update_country_schema_to_entity import (
+    mapUpdateCountrySchemaToEntity,
+)
 from app.features.admin.country.interface.schemas import (
     CountryListResponse,
     CountryResponse,
@@ -46,7 +49,6 @@ def create_country(
 ) -> CountryResponse:
     # map the request to entity
     country_entity = mapCreateCountrySchemaToEntity(data)
-
     # Call the service method to create a country
     result = country_service.create_country(country_entity)
     # return CountryResponse(status="succes", data=result)
@@ -59,8 +61,10 @@ def patch_country(
     data: CountryEntity,
     country_service: Annotated[CountryService, Depends(get_country_service)],
 ) -> CountryResponse:
+    # map the request to entity
+    country_entity = mapUpdateCountrySchemaToEntity(data)
     # Call the service method to patch a country
-    result = country_service.update_country(country_id, data)
+    result = country_service.update_country(country_id, country_entity)
     # return CountryResponse(status="succes", data=result)
     return CountryResponse(status="success", data=result)
 
