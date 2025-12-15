@@ -1,8 +1,11 @@
+from typing import Optional
 from app.features.admin.country.domain.country_entity import CountryEntity
 from app.features.admin.country.infrastructure.models.country_model import CountryModel
 
 
-def map_country_entity_to_model(entity: CountryEntity) -> CountryModel:
+def map_country_entity_to_model(
+    entity: CountryEntity, model: Optional[CountryModel] = None
+) -> CountryModel:
     """
     Map a CountryEntity to a CountryModel.
 

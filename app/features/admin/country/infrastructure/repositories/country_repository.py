@@ -103,8 +103,6 @@ class CountryRepository(ICountryRepository):
 
         # Map country entity to country model
         country_model = map_country_entity_to_model(country)
-        # update country model
-        self.session.update(country_model)
         # Commit session
         self.session.commit()
         # Map country model to country entity and return

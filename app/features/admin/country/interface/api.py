@@ -15,6 +15,7 @@ from app.features.admin.country.interface.schemas import (
     CountryListResponse,
     CountryResponse,
     CreateCountryRequest,
+    UpdateCountryRequest,
 )
 
 
@@ -58,7 +59,7 @@ def create_country(
 @v1_router.patch("/admin/country/{country_id}", status_code=status.HTTP_200_OK)
 def patch_country(
     country_id: int,
-    data: CountryEntity,
+    data: UpdateCountryRequest,
     country_service: Annotated[CountryService, Depends(get_country_service)],
 ) -> CountryResponse:
     # map the request to entity
