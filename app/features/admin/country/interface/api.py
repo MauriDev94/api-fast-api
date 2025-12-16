@@ -73,10 +73,9 @@ def patch_country(
 @v1_router.delete("/admin/country/{country_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_country(
     country_id: int,
-    data: CountryEntity,
     country_service: Annotated[CountryService, Depends(get_country_service)],
 ) -> None:
     # Call the service method to delete a country
-    result = country_service.delete_country(country_id, data)
+    country_service.delete_country(country_id)
     # Return CountryResponse(status="succes", data=result
     # return CountryResponse(status="succes", data=result)

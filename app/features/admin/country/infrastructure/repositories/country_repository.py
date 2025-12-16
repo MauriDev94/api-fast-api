@@ -1,6 +1,5 @@
 from sqlalchemy.orm.session import Session
 from typing_extensions import override
-from sqlalchemy import update
 
 from app.features.admin.country.domain.country_entity import CountryEntity
 from app.features.admin.country.infrastructure.models.country_model import CountryModel
