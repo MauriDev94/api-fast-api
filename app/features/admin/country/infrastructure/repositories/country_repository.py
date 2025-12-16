@@ -102,7 +102,7 @@ class CountryRepository(ICountryRepository):
         # TODO: raise exception if country not found
 
         # Map country entity to country model
-        country_model = map_country_entity_to_model(country)
+        country_model = map_country_entity_to_model(country, country_model)
         # Commit session
         self.session.commit()
         # Map country model to country entity and return
