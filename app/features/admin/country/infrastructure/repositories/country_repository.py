@@ -1,5 +1,7 @@
+import math
 from sqlalchemy.orm.session import Session
 from typing_extensions import override
+from sqlalchemy import func
 
 from app.features.admin.country.domain.country_entity import CountryEntity
 from app.features.admin.country.infrastructure.models.country_model import CountryModel
@@ -21,18 +23,24 @@ class CountryRepository(ICountryRepository):
 
     # ----------------------------------------------------
     @override
-    def get_all_countries(self) -> list[CountryEntity]:
+    def get_all_countries(
+        self, skip: int, limit: int
+    ) -> tuple[list[CountryEntity], int, int]:
         """
         Get all countries
 
         Returns:
             list[CountryEntity]: List of CountryEntity objects
         """
-        countries = self.session.query(CountryModel).all()
+        countries = self.session.query(CountryModel).offset(skip).limit(limit).all()
+        # count all the record by id
+        total = self.session.query(func.count(CountryModel.id)).scalar() or 0
+        # total pages
+        total_pages = math.ceil(total / limit) if limit > 0 else 1
         # Map CountryModel to CountryEntity
         result = [map_country_model_to_entity(country) for country in countries]
         # Return list of country entities
-        return result
+        return result, total, total_pages
 
     # ----------------------------------------------------
     @override

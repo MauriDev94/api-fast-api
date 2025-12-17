@@ -24,12 +24,18 @@ v1_router = get_versioned_router("v1")
 
 @v1_router.get("/admin/countries", status_code=status.HTTP_200_OK)
 def get_countries(
+    skip: int,
+    limit: int,
     country_service: Annotated[CountryService, Depends(get_country_service)],
 ) -> CountryListResponse:
     # Call the service method to get the countries
-    result = country_service.get_all_countries()
+    result = country_service.get_all_countries(skip - 1, limit)
     # Return CountryListResponse(status="success", data=result)
-    return CountryListResponse(status="success", data=result)
+    return CountryListResponse(
+        status="success",
+        data=result,
+        meta:
+    )
 
 
 @v1_router.get("/admin/countries/{country_id}", status_code=status.HTTP_200_OK)
