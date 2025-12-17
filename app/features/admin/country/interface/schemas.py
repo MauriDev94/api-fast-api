@@ -18,7 +18,7 @@ class UpdateCountryRequest(BaseModel):
 class PaginationMeta(BaseModel):
     total: int
     total_pages: int
-    pages_size: int
+    page_size: int
     current_page: int
 
 
